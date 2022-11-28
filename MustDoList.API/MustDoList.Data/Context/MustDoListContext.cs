@@ -4,16 +4,17 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using MustDoList.Data.Models;
 
-namespace MustDoList.Data.Models
+namespace MustDoList.Data.Context
 {
-    public partial class MustdolistContext : DbContext
+    public partial class MustDoListContext : DbContext
     {
-        public MustdolistContext()
+        public MustDoListContext()
         {
         }
 
-        public MustdolistContext(DbContextOptions<MustdolistContext> options)
+        public MustDoListContext(DbContextOptions<MustDoListContext> options)
             : base(options)
         {
         }
@@ -40,7 +41,13 @@ namespace MustDoList.Data.Models
             {
                 entity.Property(e => e.CreationDate).HasDefaultValueSql("'1901-01-01 00:00:00'");
 
+                entity.Property(e => e.Email).HasDefaultValueSql("''");
+
                 entity.Property(e => e.Name).HasDefaultValueSql("''");
+
+                entity.Property(e => e.Password).HasDefaultValueSql("''");
+
+                entity.Property(e => e.RefreshToken).HasDefaultValueSql("''");
             });
 
             OnModelCreatingPartial(modelBuilder);

@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using MustDoList.Data.Models;
+using MustDoList.Data.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var connectionString = builder.Configuration.GetConnectionString("Conn");
-builder.Services.AddDbContext<MustdolistContext>(opt =>
+builder.Services.AddDbContext<MustDoListContext>(opt =>
 {
     opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });

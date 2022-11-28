@@ -21,6 +21,15 @@ namespace MustDoList.Data.Models
         [Required]
         [StringLength(500)]
         public string Name { get; set; }
+        [Required]
+        [MaxLength(500)]
+        public byte[] Email { get; set; }
+        [Required]
+        [StringLength(500)]
+        public string Password { get; set; }
+        [Required]
+        [StringLength(500)]
+        public string RefreshToken { get; set; }
         public bool Active { get; set; }
         [Column(TypeName = "datetime")]
         public DateTime? CreationDate { get; set; }

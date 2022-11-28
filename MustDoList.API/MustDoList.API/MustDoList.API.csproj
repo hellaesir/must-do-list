@@ -9,10 +9,14 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.25.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MustDoList.Data\4.MustDoList.Data.csproj" />
+    <ProjectReference Include="..\MustDoList.Data\MustDoList.Data.csproj" />
+    <ProjectReference Include="..\MustDoList.Domain\MustDoList.Domain.csproj" />
+    <ProjectReference Include="..\MustDoList.Dto\MustDoList.Dto.csproj" />
+    <ProjectReference Include="..\MustDoList.Service\MustDoList.Service.csproj" />
   </ItemGroup>
 
 </Project>
