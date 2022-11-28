@@ -1,4 +1,6 @@
-﻿using MustDoList.Dto.User;
+﻿using Microsoft.Extensions.Configuration;
+using MustDoList.Data.Repositories;
+using MustDoList.Dto.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +9,18 @@ using System.Threading.Tasks;
 
 namespace MustDoList.Service.Services
 {
-    public class UserService : IUserService
+    public class UserService : BaseService, IUserService
     {
-        public Task<UserAuthenticationDTO> Authenticate(string email, string password)
+        private readonly IUserRepository _userRepository;
+
+        public UserService(IConfiguration configuration, IActiveUserService activeUserService, IUserRepository userRepository) : base(configuration, activeUserService)
         {
-            throw new NotImplementedException();
+            _userRepository = userRepository;
+        }
+
+        public async Task<UserAuthenticationDTO> Authenticate(string email, string password)
+        {
+            return await _userRepository.Authenticate(email, password);
         }
 
         public Task<string> RetrieveRefreshToken(string email)

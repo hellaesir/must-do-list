@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MustDoList.Data\MustDoList.Data.csproj" />
-    <ProjectReference Include="..\MustDoList.Domain\MustDoList.Domain.csproj" />
     <ProjectReference Include="..\MustDoList.Dto\MustDoList.Dto.csproj" />
     <ProjectReference Include="..\MustDoList.Service\MustDoList.Service.csproj" />
   </ItemGroup>

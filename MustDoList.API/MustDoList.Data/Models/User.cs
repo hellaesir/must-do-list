@@ -23,7 +23,7 @@ namespace MustDoList.Data.Models
         public string Name { get; set; }
         [Required]
         [MaxLength(500)]
-        public byte[] Email { get; set; }
+        public string Email { get; set; }
         [Required]
         [StringLength(500)]
         public string Password { get; set; }

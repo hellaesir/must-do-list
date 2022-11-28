@@ -19,4 +19,8 @@
     <Folder Include="Context\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MustDoList.Dto\MustDoList.Dto.csproj" />
+  </ItemGroup>
+
 </Project>
