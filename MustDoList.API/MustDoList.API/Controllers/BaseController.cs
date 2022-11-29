@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MustDoList.Config.Configuration;
 using MustDoList.Dto.Commons;
-using MustDoList.Dto.Configuration;
 using MustDoList.Dto.User;
 using MustDoList.Service.Services;
 

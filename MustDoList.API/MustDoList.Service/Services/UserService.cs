@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using AutoMapper;
+using Microsoft.Extensions.Configuration;
+using MustDoList.Config.Exceptions;
 using MustDoList.Data.Repositories;
 using MustDoList.Dto.User;
 using System;
@@ -12,30 +14,46 @@ namespace MustDoList.Service.Services
     public class UserService : BaseService, IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
-        public UserService(IConfiguration configuration, IActiveUserService activeUserService, IUserRepository userRepository) : base(configuration, activeUserService)
+        public UserService(IConfiguration configuration, IActiveUserService activeUserService, IUserRepository userRepository, IMapper mapper) : base(configuration, activeUserService)
         {
             _userRepository = userRepository;
+            _mapper = mapper;
         }
 
         public async Task<UserAuthenticationDTO> Authenticate(string email, string password)
         {
-            return await _userRepository.Authenticate(email, password);
+            var user = await _userRepository.Authenticate(email, password);
+
+            if (user == null) throw new MustDoListException("User not found.");
+
+            return _mapper.Map<UserAuthenticationDTO>(user);
         }
 
-        public Task<string> RetrieveRefreshToken(string email)
+        public async Task<string> RetrieveRefreshToken(string email)
         {
-            throw new NotImplementedException();
+            var user = await _userRepository.FindByEmail(email);
+            return user.RefreshToken;
         }
 
-        public Task RevokeRefreshToken(string email)
+        public async Task<bool> RevokeRefreshToken(string email)
         {
-            throw new NotImplementedException();
+            return await SaveRefreshToken(email, "");
         }
 
-        public Task SaveRefreshToken(string email, string refreshToken)
+        public async Task<bool> SaveRefreshToken(string email, string refreshToken)
         {
-            throw new NotImplementedException();
+            var user = await _userRepository.FindByEmail(email);
+            if (user != null)
+            {
+                user.RefreshToken = refreshToken;
+                await _userRepository.Save(user);
+
+                return true;
+            }
+
+            return false;
         }
     }
 
@@ -43,7 +61,7 @@ namespace MustDoList.Service.Services
     {
         Task<UserAuthenticationDTO> Authenticate(string email, string password);
         Task<string> RetrieveRefreshToken(string email);
-        Task RevokeRefreshToken(string email);
-        Task SaveRefreshToken(string email, string refreshToken);
+        Task<bool> RevokeRefreshToken(string email);
+        Task<bool> SaveRefreshToken(string email, string refreshToken);
     }
 }

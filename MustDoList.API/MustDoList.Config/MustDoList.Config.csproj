@@ -8,12 +8,12 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MustDoList.Config\MustDoList.Config.csproj" />
     <ProjectReference Include="..\MustDoList.Data\MustDoList.Data.csproj" />
-    <ProjectReference Include="..\MustDoList.Dto\MustDoList.Dto.csproj" />
   </ItemGroup>
 
 </Project>

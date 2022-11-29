@@ -1,5 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using MustDoList.Dto.Configuration;
+using MustDoList.Config.Configuration;
 using MustDoList.Dto.User;
 using MustDoList.Service.Services;
 using System.IdentityModel.Tokens.Jwt;

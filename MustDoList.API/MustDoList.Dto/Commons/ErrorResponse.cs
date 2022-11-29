@@ -17,6 +17,8 @@ namespace MustDoList.Dto.Commons
         public ErrorResponse(Exception exception)
         {
             this.exception = exception;
+            this.Detailed = exception.Message;
+            this.Message = exception.ToString();
         }
 
         public string Detailed { get; set; }

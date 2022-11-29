@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MustDoList.Config\MustDoList.Config.csproj" />
     <ProjectReference Include="..\MustDoList.Data\MustDoList.Data.csproj" />
     <ProjectReference Include="..\MustDoList.Dto\MustDoList.Dto.csproj" />
     <ProjectReference Include="..\MustDoList.Service\MustDoList.Service.csproj" />
