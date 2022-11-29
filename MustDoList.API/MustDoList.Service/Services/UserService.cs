@@ -14,12 +14,10 @@ namespace MustDoList.Service.Services
     public class UserService : BaseService, IUserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IMapper _mapper;
 
-        public UserService(IConfiguration configuration, IActiveUserService activeUserService, IUserRepository userRepository, IMapper mapper) : base(configuration, activeUserService)
+        public UserService(IConfiguration configuration, IActiveUserService activeUserService, IMapper mapper, IUserRepository userRepository) : base(configuration, activeUserService, mapper)
         {
             _userRepository = userRepository;
-            _mapper = mapper;
         }
 
         public async Task<UserAuthenticationDTO> Authenticate(string email, string password)

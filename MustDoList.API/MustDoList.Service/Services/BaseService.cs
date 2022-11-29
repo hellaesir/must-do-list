@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using AutoMapper;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +11,14 @@ namespace MustDoList.Service.Services
     public class BaseService
     {
         private readonly IConfiguration _configuration;
-        private readonly IActiveUserService _activeUserService;
+        internal readonly IActiveUserService _activeUserService;
+        internal readonly IMapper _mapper;
 
-        public BaseService(IConfiguration configuration, IActiveUserService activeUserService)
+        public BaseService(IConfiguration configuration, IActiveUserService activeUserService, IMapper mapper)
         {
             _configuration = configuration;
             _activeUserService = activeUserService;
+            _mapper = mapper;
         }
     }
 }

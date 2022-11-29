@@ -28,6 +28,11 @@ namespace MustDoList.Data.Repositories
             return await _context.Users.FirstOrDefaultAsync(f => f.Email == email);
         }
 
+        public async Task<User> FindById(int id)
+        {
+            return await _context.Users.FirstOrDefaultAsync(f => f.Id == id);
+        }
+
         public async Task<User> GetById(int id)
         {
             return await _context.Users.FirstOrDefaultAsync(f => f.Id == id);
@@ -53,5 +58,6 @@ namespace MustDoList.Data.Repositories
         Task<User> Authenticate(string email, string password);
         Task<User> FindByEmail(string email);
         Task Save(User user);
+        Task<User> FindById(int id);
     }
 }

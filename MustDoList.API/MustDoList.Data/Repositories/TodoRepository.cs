@@ -19,7 +19,7 @@ namespace MustDoList.Data.Repositories
             _context = context;
         }
 
-        public async Task Save(Todo todo, ActiveUserDTO activeUser)
+        public async Task<bool> Save(Todo todo, ActiveUserDTO activeUser)
         {
             if (todo.Id == 0)
             {
@@ -29,10 +29,11 @@ namespace MustDoList.Data.Repositories
             else
             {
                 var todoAux = await _context.Todos.Where(f => f.Id == todo.Id).FirstAsync();
-                todoAux = todo;
+                todoAux.Title = todo.Title;
+                todoAux.Done = todo.Done;
             }
 
-            await _context.SaveChangesAsync();
+            return (await _context.SaveChangesAsync()) > 0;
         }
 
         public Task<List<Todo>> GetByUser(ActiveUserDTO activeUser)
@@ -69,7 +70,7 @@ namespace MustDoList.Data.Repositories
     public interface ITodoRepository
     {
         Task<List<Todo>> GetByUser(ActiveUserDTO activeUser);
-        Task Save(Todo todo, ActiveUserDTO activeUser);
+        Task<bool> Save(Todo todo, ActiveUserDTO activeUser);
         Task<bool> SetDone(int todoId);
         Task<bool> SetUndone(int todoId);
     }
