@@ -23,14 +23,34 @@ namespace MustDoList.API.Controllers
 
         [HttpPost("create")]
         [Authorize]
-        public async Task<ActionResult<AuthResponseDTO>> Create([FromBody] TodoDTO todo)
+        public async Task<ActionResult<TodoDTO>> Create([FromBody] TodoDTO todo)
         {
             try
             {
-                if(await _todoService.Save(todo))
+                if (await _todoService.Save(todo))
                     return Ok(todo);
 
                 return NoContent();
+            }
+            catch (MustDoListException ex)
+            {
+                return BadRequest(new ErrorResponse(ex));
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.ToString());
+            }
+        }
+
+        [HttpPost("list")]
+        [Authorize]
+        public async Task<ActionResult<ListBase<TodoDTO>>> List(int pageNumber, int pageSize)
+        {
+            try
+            {
+                ListBase<TodoDTO> lista = await _todoService.GetList(pageNumber, pageSize);
+
+                return Ok(lista);
             }
             catch (MustDoListException ex)
             {

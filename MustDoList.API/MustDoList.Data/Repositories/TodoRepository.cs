@@ -36,9 +36,9 @@ namespace MustDoList.Data.Repositories
             return (await _context.SaveChangesAsync()) > 0;
         }
 
-        public Task<List<Todo>> GetByUser(ActiveUserDTO activeUser)
+        public Task<List<Todo>> GetByUser(int pageNumber, int pageSize, ActiveUserDTO activeUser)
         {
-            return _context.Todos.Where(f => f.UserId == activeUser.Id).ToListAsync();
+            return _context.Todos.Where(f => f.UserId == activeUser.Id).Skip(pageNumber*pageSize).Take(pageSize).ToListAsync();
         }
 
         public async Task<bool> SetDone(int todoId)
@@ -65,11 +65,17 @@ namespace MustDoList.Data.Repositories
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<int> GetCountByUser(ActiveUserDTO activeUser)
+        {
+            return await _context.Todos.CountAsync(f => f.UserId == activeUser.Id);
+        }
     }
 
     public interface ITodoRepository
     {
-        Task<List<Todo>> GetByUser(ActiveUserDTO activeUser);
+        Task<List<Todo>> GetByUser(int pageNumber, int pageSize, ActiveUserDTO activeUser);
+        Task<int> GetCountByUser(ActiveUserDTO activeUser);
         Task<bool> Save(Todo todo, ActiveUserDTO activeUser);
         Task<bool> SetDone(int todoId);
         Task<bool> SetUndone(int todoId);

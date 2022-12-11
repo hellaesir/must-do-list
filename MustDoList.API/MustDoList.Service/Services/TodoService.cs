@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using MustDoList.Data.Models;
 using MustDoList.Data.Repositories;
+using MustDoList.Dto.Commons;
 using MustDoList.Dto.Todo;
 using System;
 using System.Collections.Generic;
@@ -20,12 +21,17 @@ namespace MustDoList.Service.Services
             _todoRepository = todoRepository;
         }
 
-        public async Task<List<TodoDTO>> GetByUser()
+        public async Task<ListBase<TodoDTO>> GetList(int pageNumber, int pageSize)
         {
             var activeUser = await _activeUserService.GetUser();
-            var todos = await _todoRepository.GetByUser(activeUser);
+            var todos = await _todoRepository.GetByUser(pageNumber, pageSize, activeUser);
+            var dtoItems = _mapper.Map<List<TodoDTO>>(todos);
+            
+            var ret = new ListBase<TodoDTO>();
+            ret.Items = dtoItems;
+            ret.ItemsQty = await _todoRepository.GetCountByUser(activeUser);
 
-            return _mapper.Map<List<TodoDTO>>(todos);
+            return ret;
         }
 
         public async Task<bool> Save(TodoDTO todo)
@@ -39,6 +45,6 @@ namespace MustDoList.Service.Services
     public interface ITodoService
     {
         Task<bool> Save(TodoDTO todo);
-        Task<List<TodoDTO>> GetByUser();
+        Task<ListBase<TodoDTO>> GetList(int pageNumber, int pageSize);
     }
 }

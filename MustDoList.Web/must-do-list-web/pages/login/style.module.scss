@@ -1,0 +1,34 @@
+.loginPage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  min-height: 100vh;
+
+  .overlay {
+    background-color: #3f51b5;
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+
+  .widthCard {
+    height: 300px;
+    width: 400px;
+    padding: 20px;
+
+    .cardcontenta {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+  }
+
+  .text {
+    width: 100%;
+  }
+}
