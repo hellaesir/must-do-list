@@ -1,7 +1,7 @@
 import { Button, Card, CardContent, TextField } from '@material-ui/core';
 import { useState, useContext } from 'react';
-import { AuthRequest } from '../../src/communication/authRequest';
-import { AuthContext } from '../../src/contexts/authContext';
+import { AuthRequest } from '../../communication/authRequest';
+import { AuthContext } from '../../contexts/authContext';
 import styles from './style.module.scss'
 
 const Login = () => {

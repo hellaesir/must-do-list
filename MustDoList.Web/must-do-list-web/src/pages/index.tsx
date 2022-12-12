@@ -3,8 +3,14 @@ import TextField from '@material-ui/core/TextField'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import MenuIcon from '@mui/icons-material/Menu';
+import { GetServerSideProps } from 'next';
+import { parseCookies } from 'nookies';
+import { useContext } from 'react';
+import { AuthContext } from '../contexts/authContext';
 
 export default function Home() {
+  const { user } = useContext(AuthContext);
+
   return (<>
     <AppBar position="static">
       <Toolbar variant="dense">
@@ -12,7 +18,7 @@ export default function Home() {
           <MenuIcon></MenuIcon>
         </IconButton>
         <Typography variant="h6" color="inherit" component="div">
-          Must Do List
+          Must Do List - { user?.Name }
         </Typography>
       </Toolbar>
     </AppBar>
@@ -31,4 +37,21 @@ export default function Home() {
     </div>
   </>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { ['mustdotoken-token']: token } = parseCookies(ctx);
+
+  console.log(token);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false
+      }
+    }
+  }
+
+  return { props: {} }
 }

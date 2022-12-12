@@ -43,6 +43,9 @@ namespace MustDoList.API.Controllers
                 {
                     AccessToken = token,
                     RefreshToken = refreshToken,
+                    UserEmail = user.Email,
+                    UserId= user.Id,
+                    UserName = user.Name,
                 };
             }
             catch (MustDoListException ex)
