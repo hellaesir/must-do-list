@@ -3,13 +3,25 @@ import TextField from '@material-ui/core/TextField'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import MenuIcon from '@mui/icons-material/Menu';
-import { GetServerSideProps } from 'next';
-import { parseCookies } from 'nookies';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { AuthContext } from '../contexts/authContext';
+import { ApiService } from '../services/ApiService';
+import { Todo } from '../models/todo';
+import { ListBase } from '../models/listBase';
 
 export default function Home() {
   const { user } = useContext(AuthContext);
+
+  useEffect(() => {
+    getTodoList();
+  },[]);
+
+  const getTodoList = async () => {
+    var apiService = new ApiService('INTERNAL');
+    var todoList = await apiService.Get<ListBase<Todo>>(`/api/todo`);
+
+    console.debug(todoList);
+  }
 
   return (<>
     <AppBar position="static">
@@ -37,21 +49,4 @@ export default function Home() {
     </div>
   </>
   )
-}
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { ['mustdotoken-token']: token } = parseCookies(ctx);
-
-  console.log(token);
-
-  if (!token) {
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false
-      }
-    }
-  }
-
-  return { props: {} }
 }

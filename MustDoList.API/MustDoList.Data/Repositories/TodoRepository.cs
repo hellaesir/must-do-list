@@ -38,7 +38,7 @@ namespace MustDoList.Data.Repositories
 
         public Task<List<Todo>> GetByUser(int pageNumber, int pageSize, ActiveUserDTO activeUser)
         {
-            return _context.Todos.Where(f => f.UserId == activeUser.Id).Skip(pageNumber*pageSize).Take(pageSize).ToListAsync();
+            return _context.Todos.Where(f => f.UserId == activeUser.Id).Skip((pageNumber-1)*pageSize).Take(pageSize).ToListAsync();
         }
 
         public async Task<bool> SetDone(int todoId)

@@ -104,6 +104,15 @@ builder.Services.AddSwaggerGen(c =>
     //c.IncludeXmlComments(xmlPath);
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "development_cors",
+                      builder =>
+                      {
+                          builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                      });
+});
+
 var connectionString = builder.Configuration.GetConnectionString("Conn");
 builder.Services.AddDbContext<MustDoListContext>(opt =>
 {

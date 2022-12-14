@@ -42,7 +42,7 @@ namespace MustDoList.API.Controllers
             }
         }
 
-        [HttpPost("list")]
+        [HttpGet("list")]
         [Authorize]
         public async Task<ActionResult<ListBase<TodoDTO>>> List(int pageNumber, int pageSize)
         {

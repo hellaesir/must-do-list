@@ -1,12 +1,10 @@
-import axios from "axios";
 import Router from "next/router";
 import { parseCookies, setCookie } from "nookies";
-import { createContext, ReactNode, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { AuthRequest } from "../communication/authRequest";
 import { AuthResponse } from "../communication/authResponse";
 import { User } from "../models/user";
-import { apiBase } from "../services/api";
-
+import { ApiService } from "../services/ApiService";
 
 type AuthContextType = {
     isAuthenticated: boolean;
@@ -31,18 +29,19 @@ const AuthProvider = ({ children }: { children: any }) => {
     }, [])
 
     async function signIn(authRequest: AuthRequest) {
-        var response = await apiBase.post(`/api/auth`, authRequest);
-        var authResponse: AuthResponse = response.data;
+        var apiClient = new ApiService("INTERNAL");
+        var authResponse = await apiClient.Post<AuthResponse>(`/api/auth`, authRequest);
 
-        var user: User = new User(authResponse.userId, authResponse.userName, authResponse.userEmail, authResponse.refreshToken, authResponse.accessToken);
+        if (authResponse) {
+            var user: User = new User(authResponse.userId, authResponse.userName, authResponse.userEmail, authResponse.refreshToken, authResponse.accessToken);
 
-        setCookie(undefined, "mustdotoken-token", user.BearerToken, {
-            maxAge: 60 * 60 * 1 // 1hora
-        });
+            setCookie(undefined, "mustdotoken-token", user.BearerToken, {
+                maxAge: 60 * 60 * 1 // 1hora
+            });
 
-        setUser(user);
-
-        Router.push('/');
+            setUser(user);
+            Router.push('/');
+        }
     }
 
     return (
